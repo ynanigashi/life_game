@@ -8,9 +8,9 @@ from pygame.locals import *
 
 
 # config
-cell_cols = 10
-cell_rows = 20
-
+cell_cols = 100
+cell_rows = 100
+cell_size = 5
 
 
 
@@ -19,29 +19,26 @@ class Game:
 
     border = 1
     bg_color = (30, 30, 30)
-    cell_size = 40
+
 
     def __init__(self):
-        pygame.display.set_caption('tetro')
-        self.screen = pygame.display.set_mode((480, 840))
+        pygame.display.set_caption('life game')
+        self.screen = pygame.display.set_mode((cell_cols * cell_size, cell_rows * cell_size))
         pygame.init()
         pygame.key.set_repeat(200,100)
         self.clock = pygame.time.Clock()
-        # self.mino = self.create_mino()
-        self.msec = 0
         self.interval = 1000
 
     def _draw_cell(self, color, cx, cy):
-        px = cx * self.cell_size
-        py = cy * self.cell_size
-        pygame.draw.rect(self.screen, self.bg_color, (px, py, self.cell_size, self.cell_size))
+        px = cx * cell_size
+        py = cy * cell_size
+        pygame.draw.rect(self.screen, self.bg_color, (px, py, cell_size, cell_size))
         pygame.draw.rect(self.screen, color, (
             px + self.border, py + self.border,
-            self.cell_size-self.border, self.cell_size-self.border))
+            cell_size-self.border, cell_size-self.border))
 
 
     def display(self):
-        progress = (self.msec % self.interval) / self.interval
         # clear
         self.screen.fill(self.bg_color)
         # drawing
@@ -64,8 +61,6 @@ class Game:
                 if event.type == QUIT: return
                 elif event.type == KEYDOWN:
                     if event.key == K_ESCAPE: return
-            # display and wait
-            self.msec += self.display()
 
 if __name__ == '__main__':
     game = Game()
