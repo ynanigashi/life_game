@@ -92,7 +92,11 @@ class Game:
                 x, y = pygame.mouse.get_pos()
                 x //= cell_size
                 y //= cell_size
-                self.matrix[x][y] = 1
+                buttons = pygame.mouse.get_pressed()
+                if buttons[0]:
+                    self.matrix[x][y] = 1
+                elif buttons[2]:
+                    self.matrix[x][y] = 0
 
             # display and wait
             self.display()
