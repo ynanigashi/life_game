@@ -12,8 +12,6 @@ cell_cols = 10
 cell_rows = 20
 
 
-
-
 class Game:
     direction = 1
 
@@ -28,8 +26,6 @@ class Game:
         pygame.init()
         pygame.key.set_repeat(200,100)
         self.clock = pygame.time.Clock()
-        # self.mino = self.create_mino()
-        self.msec = 0
         self.interval = 1000
 
     def _draw_cell(self, color, cx, cy):
@@ -41,7 +37,6 @@ class Game:
             self.cell_size-self.border, self.cell_size-self.border))
 
     def display(self):
-        progress = (self.msec % self.interval) / self.interval
         # clear
         self.screen.fill(self.bg_color)
         # drawing
@@ -63,7 +58,7 @@ class Game:
                 elif event.type == KEYDOWN:
                     if event.key == K_ESCAPE: return
             # display and wait
-            self.msec += self.display()
+            self.display()
 
 if __name__ == '__main__':
     game = Game()
