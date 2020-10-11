@@ -24,7 +24,7 @@ class Game:
         pygame.init()
         pygame.key.set_repeat(200,100)
         self.clock = pygame.time.Clock()
-        self.interval = 1000
+        self.interval = 100
         self.matrix = [[0 for _ in range(cell_cols)] for _ in range(cell_rows)]
         self.msec = 0
 
@@ -53,20 +53,22 @@ class Game:
         alive = 0
         for rx, ry in cells:
             if 0 <= x + rx < cell_cols and 0 <= y + ry < cell_rows:
-                if self.matrix[x + rx][y + ry]:
+                if self.matrix[x + rx][y + ry] == 1:
                     alive += 1
         return alive
 
     def process_rules(self):
+        matrix = [[0 for _ in range(cell_cols)] for _ in range(cell_rows)]
         for i in range(cell_cols):
             for j in range(cell_rows):
                 alive = self.count_neighbor_cells(i, j)
-                if self.matrix[i][j]:
-                    if alive <= 1 or alive >= 4:
-                        self.matrix[i][j] = 0
-                else:
-                    if alive == 3:
-                        self.matrix[i][j] = 1
+                if alive <= 1 or alive >= 4:
+                    matrix[i][j] = 0
+                elif alive == 2:
+                    matrix[i][j] = self.matrix[i][j]
+                elif alive == 3:
+                    matrix[i][j] = 1
+        self.matrix = matrix
         print('rules')
         
     def gameloop(self):
@@ -96,7 +98,7 @@ class Game:
             self.display()
             if not pause:
                 self.msec += self.clock.tick(60)
-            if self.msec > 1000:
+            if self.msec > self.interval:
                 self.msec = 0
                 self.process_rules()
 
