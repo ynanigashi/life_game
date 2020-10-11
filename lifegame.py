@@ -1,8 +1,3 @@
-import sys
-import random
-import math
-import os
-import getopt
 import pygame
 from pygame.locals import *
 
@@ -69,8 +64,7 @@ class Game:
                 elif alive == 3:
                     matrix[i][j] = 1
         self.matrix = matrix
-        print('rules')
-        
+
     def gameloop(self):
         pressed = False
         pause = True
