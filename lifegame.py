@@ -48,7 +48,25 @@ class Game:
     def gameover(self):
         self.__init__()
 
+    def count_neighbor_cells(self, x, y):
+        cells = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
+        alive = 0
+        for rx, ry in cells:
+            if 0 <= x + rx < cell_cols and 0 <= y + ry < cell_rows:
+                if self.matrix[x + rx][y + ry]:
+                    alive += 1
+        return alive
+
     def process_rules(self):
+        for i in range(cell_cols):
+            for j in range(cell_rows):
+                alive = self.count_neighbor_cells(i, j)
+                if self.matrix[i][j]:
+                    if alive <= 1 or alive >= 4:
+                        self.matrix[i][j] = 0
+                else:
+                    if alive == 3:
+                        self.matrix[i][j] = 1
         print('rules')
         
     def gameloop(self):
