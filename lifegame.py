@@ -12,8 +12,6 @@ cell_cols = 100
 cell_rows = 100
 cell_size = 5
 
-
-
 class Game:
     direction = 1
     border = 1
@@ -58,6 +56,8 @@ class Game:
                 if event.type == QUIT: return
                 elif event.type == KEYDOWN:
                     if event.key == K_ESCAPE: return
+            # display and wait
+            self.display()
 
 if __name__ == '__main__':
     game = Game()
