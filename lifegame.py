@@ -26,6 +26,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.interval = 1000
         self.matrix = [[0 for _ in range(cell_cols)] for _ in range(cell_rows)]
+        self.msec = 0
 
     def _draw_cell(self, color, cx, cy):
         px = cx * cell_size
@@ -42,19 +43,26 @@ class Game:
             for j in range(cell_rows):
                 self._draw_cell(self.fg_color, i, j)
         pygame.display.flip()
-        return self.clock.tick(120)
+        return
 
     def gameover(self):
         self.__init__()
 
+    def process_rules(self):
+        print('rules')
+        
     def gameloop(self):
         pressed = False
+        pause = True
         while 1:
             # # handle input
             for event in pygame.event.get():
                 if event.type == QUIT: return
                 elif event.type == KEYDOWN:
                     if event.key == K_ESCAPE: return
+                    elif event.key == K_SPACE:
+                        pause = not pause
+                        
                 elif event.type == MOUSEBUTTONDOWN:
                     pressed = True
                 elif event.type == MOUSEBUTTONUP:
@@ -65,9 +73,15 @@ class Game:
                 x //= cell_size
                 y //= cell_size
                 self.matrix[x][y] = 1
-                print(x, y)
+
             # display and wait
             self.display()
+            if not pause:
+                self.msec += self.clock.tick(60)
+            if self.msec > 1000:
+                self.msec = 0
+                self.process_rules()
+
 
 if __name__ == '__main__':
     game = Game()
