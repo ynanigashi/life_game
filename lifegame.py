@@ -17,7 +17,6 @@ class Game:
     border = 1
     bg_color = (230, 230, 230)
     fg_color = (30, 30, 30)
-    cell_size = 40
 
     def __init__(self):
         pygame.display.set_caption('life game')
@@ -30,10 +29,7 @@ class Game:
     def _draw_cell(self, color, cx, cy):
         px = cx * cell_size
         py = cy * cell_size
-        pygame.draw.rect(self.screen, self.bg_color, (px, py, cell_size, cell_size))
-        pygame.draw.rect(self.screen, color, (
-            px + self.border, py + self.border,
-            cell_size-self.border, cell_size-self.border))
+        pygame.draw.rect(self.screen, self.bg_color, (px, py, cell_size, cell_size), 1)
 
     def display(self):
         # clear
@@ -42,6 +38,7 @@ class Game:
         pygame.draw.rect(self.screen, self.fg_color, (
             2, 2,
             476, 836))
+        self._draw_cell(self.fg_color, 1, 1)
         pygame.display.flip()
         return self.clock.tick(120)
 
